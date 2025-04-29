@@ -1,7 +1,10 @@
 
 
+
 export const IndexPage = () => {
   return (
-    <div>IndexPage</div>
+    <>
+        <h1>Inicio</h1>
+    </>
   )
 }
