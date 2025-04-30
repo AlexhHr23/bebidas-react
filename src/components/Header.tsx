@@ -1,11 +1,31 @@
-import { useMemo } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { NavLink, useLocation } from "react-router"
+import { useAppStore } from "../stores/useAppStore"
 
 export const Header = () => {
 
-    const { pathname } = useLocation()
+    const [searFilters, setSearFilters] = useState({
+        ingredient: '',
+        category: ''
+    })
 
+    const { pathname } = useLocation()
     const isHome = useMemo(() => pathname === '/', [pathname])
+    const fetchCategories = useAppStore((state) => state.fetchCategories)
+    const categories = useAppStore((state) => state.categories) 
+
+   
+
+    const hadleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+        setSearFilters({
+            ...searFilters,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    useEffect(() => {
+        fetchCategories()
+    }, [])
 
     return (
         <header className={isHome ? 'bg-[url(/bg.jpg)] bg-center bg-cover' : 'bg-slate-800'}>
@@ -42,22 +62,34 @@ export const Header = () => {
                              name="ingredient"
                              className="p-3 w-full rounded-lg bg-white focus:outline-none"
                              placeholder="Nombre o ingrediente. Ej. Vodka, Tequila"
+                             onChange={hadleChange}
+                             value={searFilters.ingredient}
                             />
 
                         </div>
                         <div className="space-y-4">
                             <label
-                                htmlFor="ingredient"
+                                htmlFor="category"
                                 className="block text-white uppercase font-extrabold text-lg"
                             >
                                 Categoria
                             </label>
                             <select
-                             id='ingredient'
-                             name="ingredient"
+                             id='category'
+                             name="category"
                              className="p-3 w-full rounded-lg bg-white focus:outline-none"
+                             onChange={hadleChange}
+                             value={searFilters.category}
                             > 
                             <option value="">-- Seleccione --</option>
+                            {categories.drinks.map( category => (
+                                <option
+                                    key={category.strCategory}
+                                    value={category.strCategory}
+                                >
+                                    {category.strCategory}
+                                </option>
+                            ))}
                             </select>
                             <input 
                                 type="submit"
