@@ -1,10 +1,10 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
 import { NavLink, useLocation } from "react-router"
 import { useAppStore } from "../stores/useAppStore"
 
 export const Header = () => {
 
-    const [searFilters, setSearFilters] = useState({
+    const [searchFilters, setSearFilters] = useState({
         ingredient: '',
         category: ''
     })
@@ -13,14 +13,28 @@ export const Header = () => {
     const isHome = useMemo(() => pathname === '/', [pathname])
     const fetchCategories = useAppStore((state) => state.fetchCategories)
     const categories = useAppStore((state) => state.categories) 
+    const searchRecipies = useAppStore((state) => state.searchRecipies) 
 
    
 
     const hadleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         setSearFilters({
-            ...searFilters,
+            ...searchFilters,
             [e.target.name]: e.target.value
         })
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        //TODO: validar
+        if(Object.values(searchFilters).includes('')) {
+            console.log('Todos los campos son obligatorios');
+            return
+        }
+
+        //Consultar las recetas
+        searchRecipies(searchFilters)
     }
 
     useEffect(() => {
@@ -48,7 +62,10 @@ export const Header = () => {
                 </div>
 
                 {isHome && (
-                    <form className="md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6">
+                    <form 
+                        className="md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6"
+                        onSubmit={handleSubmit}
+                    >
                         <div className="space-y-4">
                             <label
                                 htmlFor="ingredient"
@@ -63,7 +80,7 @@ export const Header = () => {
                              className="p-3 w-full rounded-lg bg-white focus:outline-none"
                              placeholder="Nombre o ingrediente. Ej. Vodka, Tequila"
                              onChange={hadleChange}
-                             value={searFilters.ingredient}
+                             value={searchFilters.ingredient}
                             />
 
                         </div>
@@ -79,7 +96,7 @@ export const Header = () => {
                              name="category"
                              className="p-3 w-full rounded-lg bg-white focus:outline-none"
                              onChange={hadleChange}
-                             value={searFilters.category}
+                             value={searchFilters.category}
                             > 
                             <option value="">-- Seleccione --</option>
                             {categories.drinks.map( category => (
