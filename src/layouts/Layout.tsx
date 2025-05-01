@@ -1,5 +1,6 @@
 import { Outlet } from "react-router"
 import { Header } from "../components/Header"
+import Modal from "../components/Modal"
 
 
 export const Layout = () => {
@@ -9,6 +10,8 @@ export const Layout = () => {
             <main className="container mx-auto p-16">
                 <Outlet />
             </main>
+
+            <Modal/>
         </>
     )
 }
