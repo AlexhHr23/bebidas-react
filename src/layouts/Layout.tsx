@@ -4,6 +4,7 @@ import { Outlet } from "react-router"
 import { Header } from "../components/Header"
 import Modal from "../components/Modal"
 import { useAppStore } from "../stores/useAppStore"
+import Notification from "../components/Notification"
 
 export const Layout = () => {
 
@@ -21,6 +22,7 @@ export const Layout = () => {
             </main>
 
             <Modal/>
+            <Notification/>
         </>
     )
 }
