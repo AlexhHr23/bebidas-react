@@ -8,6 +8,7 @@ export default function Modal() {
     const modal = useAppStore((state) => state.modal)
     const closeModal = useAppStore((state) => state.closeModal)
     const selectRecipe = useAppStore((state) => state.selectRecipe)
+    const handleClickFavorite = useAppStore((state) => state.handleClickFavorite)
 
     const renderIngredients = () => {
 
@@ -79,6 +80,7 @@ export default function Modal() {
 
                                         <div className='mt-5 flex justify-between gap-4'>
                                             <button
+                                                type='button'
                                                 className='w-full rounded bg-gray-600 p-3 font-bold uppercase text-white shadow hover:bg-gray-500'
                                                 onClick={closeModal}
                                             >
@@ -86,8 +88,9 @@ export default function Modal() {
                                             </button>
 
                                             <button
+                                                type='button'
                                                 className='w-full rounded bg-orange-600 p-3 font-bold uppercase text-white shadow hover:bg-orange-500'
-                                                // onClick={() => }
+                                                onClick={() => handleClickFavorite(selectRecipe)}
                                             >
                                                 Agregar a favoritos
                                             </button>
