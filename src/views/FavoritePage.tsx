@@ -30,3 +30,4 @@ export const FavoritePage = () => {
     </>
   )
 }
+export default FavoritePage;
