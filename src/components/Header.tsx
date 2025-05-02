@@ -28,7 +28,6 @@ export const Header = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        //TODO: validar
         if(Object.values(searchFilters).includes('')) {
             showNotification({
                 text: 'Todos los campos son obligatorios',
@@ -58,9 +57,14 @@ export const Header = () => {
                             className={({ isActive }) =>
                                 isActive ? 'text-orange-500 uppercase font-bold' : 'text-white uppercase font-bold'
                             } >Inicio</NavLink>
+
                         <NavLink className={({ isActive }) =>
                             isActive ? 'text-orange-500 uppercase font-bold' : 'text-white uppercase font-bold'
                         } to="/favoritos">Favoritos</NavLink>
+
+                        <NavLink className={({ isActive }) =>
+                            isActive ? 'text-orange-500 uppercase font-bold' : 'text-white uppercase font-bold'
+                        } to="/generate">Generar con IA</NavLink>
                     </nav>
                 </div>
 
