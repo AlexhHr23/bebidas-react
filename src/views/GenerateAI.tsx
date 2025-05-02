@@ -4,6 +4,8 @@ import { useAppStore } from "../stores/useAppStore"
 export const  GenerateAI = () =>  {
 
   const showNotification = useAppStore((state) => state.showNotification)
+  const generateRecipe = useAppStore((state) => state.generateRecipe)
+  const recipe = useAppStore((state) => state.recipe)
 
   const hadleSUbmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,6 +20,8 @@ export const  GenerateAI = () =>  {
       })
       return
     }
+
+    await generateRecipe(prompt)
   } 
 
     return (
@@ -51,7 +55,7 @@ export const  GenerateAI = () =>  {
           </form>
   
           <div className="py-10 whitespace-pre-wrap">
-  
+            {recipe}
           </div>
         </div>
       </> 
